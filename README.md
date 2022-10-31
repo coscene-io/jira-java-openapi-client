@@ -1,4 +1,4 @@
-# openapi-java-client
+# jira-openapi-java-client
 
 The Jira Cloud platform REST API
 - API version: 1001.0.0-SNAPSHOT
