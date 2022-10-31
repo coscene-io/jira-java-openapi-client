@@ -1,0 +1,17 @@
+
+
+# ScreenSchemeDetailsScreens
+
+The IDs of the screens for the screen types of the screen scheme. Only screens used in classic projects are accepted.
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**edit** | **Long** | The ID of the edit screen. |  [optional] |
+|**create** | **Long** | The ID of the create screen. |  [optional] |
+|**view** | **Long** | The ID of the view screen. |  [optional] |
+|**_default** | **Long** | The ID of the default screen. Required when creating a screen scheme. |  [optional] |
+
+
+
