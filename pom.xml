@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.coscene</groupId>
-    <artifactId>openapi-java-client</artifactId>
+    <artifactId>jira-openapi-java-client</artifactId>
     <packaging>jar</packaging>
-    <name>openapi-java-client</name>
+    <name>jira-openapi-java-client</name>
     <version>1001.0.0-SNAPSHOT</version>
     <url>https://github.com/coscene-io/jira-java-openapi-client</url>
     <description>The Jira Cloud platform REST API</description>
