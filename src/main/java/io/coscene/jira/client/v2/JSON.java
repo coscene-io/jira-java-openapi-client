@@ -13,6 +13,8 @@
 
 package io.coscene.jira.client.v2;
 
+import static io.coscene.jira.client.CosConstant.JIRA_RESPONSE_FORMATTER;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -25,6 +27,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import io.coscene.jira.client.v2.model.CustomContextVariable;
 import io.coscene.jira.client.v2.model.CustomFieldContextDefaultValue;
@@ -75,6 +78,8 @@ import java.util.HashMap;
 import java.util.Map;
 import okio.ByteString;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * A JSON utility class
@@ -83,6 +88,7 @@ import org.jetbrains.annotations.NotNull;
  *       backward-compatibility
  */
 public class JSON {
+  private static Logger log = LoggerFactory.getLogger(io.coscene.jira.client.v3.JSON.class);
   private static Gson gson;
   private static boolean isLenientOnJson = false;
   private static DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
@@ -1692,7 +1698,7 @@ public class JSON {
     private DateTimeFormatter formatter;
 
     public OffsetDateTimeTypeAdapter() {
-      this(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+      this(JIRA_RESPONSE_FORMATTER);
     }
 
     public OffsetDateTimeTypeAdapter(DateTimeFormatter formatter) {
@@ -1714,16 +1720,16 @@ public class JSON {
 
     @Override
     public OffsetDateTime read(JsonReader in) throws IOException {
-      switch (in.peek()) {
-        case NULL:
-          in.nextNull();
-          return null;
-        default:
-          String date = in.nextString();
-          if (date.endsWith("+0000")) {
-            date = date.substring(0, date.length() - 5) + "Z";
-          }
-          return OffsetDateTime.parse(date, formatter);
+      if (in.peek() == JsonToken.NULL) {
+        in.nextNull();
+        return null;
+      }
+      final String text = in.nextString();
+      try {
+        return OffsetDateTime.parse(text, formatter);
+      } catch (Exception e) {
+        log.error("parse offset datetime failed: {}", text, e);
+        return null;
       }
     }
   }
